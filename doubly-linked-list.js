@@ -139,3 +139,49 @@ list.push(13)
 list.push(12)
 
 console.log(list.pop())
+
+// 146. LRU Cache https://leetcode.com/problems/lru-cache/
+/**
+ * @param {number} capacity
+ */
+class LRUCache {
+  constructor(capacity) {
+    this.map = new Map()
+    this.capacity = capacity
+  }
+
+  /**
+   * @param {number} key
+   * @return {number}
+   */
+  get(key) {
+    if (!this.map.has(key)) return -1
+
+    const getValue = this.map.get(key)
+    this.map.delete(key)
+    this.map.set(key, getValue)
+
+    return this.map.get(key)
+  }
+
+  /**
+   * @param {number} key
+   * @param {number} value
+   * @return {void}
+   */
+  put(key, value) {
+    this.map.delete(key)
+    this.map.set(key, value)
+
+    if (this.map.size > this.capacity) {
+      this.map.delete(this.map.keys().next().value)
+    }
+  }
+
+  /**
+   * Your LRUCache object will be instantiated and called as such:
+   * var obj = new LRUCache(capacity)
+   * var param_1 = obj.get(key)
+   * obj.put(key,value)
+   */
+}
